@@ -75,7 +75,7 @@ module.exports = function(wifi_manager, callback) {
       wifi_manager.is_wifi_enabled(function(error, result_ip) {
         if (result_ip) {
           console.log(
-              "wlan0 came up while running HTTP server. Stopping...");
+              "wifi came up while running HTTP server. Stopping...");
           console.log("Restoring station dhcpcd config");
           fs.copyFile(
             "./assets/etc/dhcpcd/dhcpcd.station.template",
@@ -98,7 +98,7 @@ module.exports = function(wifi_manager, callback) {
           );
         }
         else {
-          console.log("wlan0 is still down");
+          console.log("wifi is still down");
         }
       });
     },
