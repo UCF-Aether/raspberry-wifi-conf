@@ -1,6 +1,7 @@
 var path = require("path"), util = require("util"),
     iwlist = require("./iwlist"), express = require("express"),
     bodyParser = require('body-parser'), config = require("../config.json"),
+    fs      = require("fs"),
     http_test = config.http_test_only;
 
 // Helper function to log errors and send a generic status "SUCCESS"
@@ -74,20 +75,19 @@ module.exports = function(wifi_manager, callback) {
         if (result_ip) {
           console.log(
               "Wifi became enabled will running HTTP server. Stopping...");
-          wifi_manager.enable_wifi_mode(conn_info, function(error) {
-            if (error) {
-              console.log("Enable Wifi ERROR: " + error);
-              console.log("Attempt to re-enable AP mode");
-              wifi_manager.enable_ap_mode(
-                config.access_point.ssid,
-                function(error) { console.log("... AP mode reset"); }
-              );
+          console.log("Restoring station dhcpcd config");
+          fs.copyFile(
+            "./assets/etc/dhcpcd/dhcpcd.station.template",
+            "/etc/dhcpcd.conf",
+            (err) => { 
+              if (err) {
+                console.log(err) 
+              }
+              else {
+                process.exit(0);
+              }
             }
-            else {
-              console.log("Wifi Enabled! - Exiting");
-              process.exit(0);
-            }
-          });
+          );
         }
       });
     },
