@@ -1,0 +1,9 @@
+[Unit]
+Description=Checks wifi status and create AP if wifi is disconnected
+
+[Timer]
+OnUnitActiveSec=10s
+OnBootSec=10s
+
+[Install]
+WantedBy=timers.target

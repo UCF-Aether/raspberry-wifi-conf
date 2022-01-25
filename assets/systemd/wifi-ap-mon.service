@@ -1,0 +1,6 @@
+[Unit]
+Description=Job that checks wifi status and create AP if wifi is disconnected
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash cd /root/raspberry-wifi-conf/ && npm start
