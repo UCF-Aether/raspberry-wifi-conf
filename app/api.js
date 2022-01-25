@@ -1,8 +1,7 @@
 var path = require("path"), util = require("util"),
     iwlist = require("./iwlist"), express = require("express"),
     bodyParser = require('body-parser'), config = require("../config.json"),
-    fs      = require("fs"),
-    http_test = config.http_test_only;
+    fs = require("fs"), http_test = config.http_test_only;
 
 // Helper function to log errors and send a generic status "SUCCESS"
 // message to the caller
@@ -71,10 +70,11 @@ module.exports = function(wifi_manager, callback) {
   // Run test every 5 seconds to see if the wifi came up while the server is up
   setInterval(
     () => {
+      console.log("Checking wifi state")
       wifi_manager.is_wifi_enabled(function(error, result_ip) {
         if (result_ip) {
           console.log(
-              "Wifi became enabled will running HTTP server. Stopping...");
+              "wlan0 came up while running HTTP server. Stopping...");
           console.log("Restoring station dhcpcd config");
           fs.copyFile(
             "./assets/etc/dhcpcd/dhcpcd.station.template",
@@ -84,10 +84,20 @@ module.exports = function(wifi_manager, callback) {
                 console.log(err) 
               }
               else {
+              exec("sudo systemctl restart dhcpcd", (error, stdout, stderr) => {
+               if (!error)
+                 console.log("... dhcpcd server restarted!");
+               else
+                 console.log("... dhcpcd server failed! - " + stdout);
+
                 process.exit(0);
+               });
               }
             }
           );
+        }
+        else {
+          console.log("wlan0 is still down");
         }
       });
     },
