@@ -274,7 +274,7 @@ module.exports = function() {
             function update_wpa_supplicant(next_step) {
               write_template_to_file(
                   "./assets/etc/wpa_supplicant/wpa_supplicant.conf.template",
-                  "/etc/wpa_supplicant/wpa_supplicant.conf", connection_info,
+                  "/etc/wpa_supplicant/wpa_supplicant-wlan0.conf", connection_info,
                   next_step);
             },
 
