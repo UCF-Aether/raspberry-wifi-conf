@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "npm test",
-    "install:timer": "cp ./assets/systemd/* /etc/systemd/system/"
+    "install:timer": "cp -f ./assets/systemd/* /etc/systemd/system/ && systemctl daemon-reload"
   },
   "repository": {
     "type": "git",
