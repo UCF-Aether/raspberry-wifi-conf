@@ -3,4 +3,4 @@ Description=Job that checks wifi status and create AP if wifi is disconnected
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash cd /root/raspberry-wifi-conf/ && npm start
+ExecStart=/bin/bash -c "cd /root/raspberry-wifi-conf/ && npm start"
