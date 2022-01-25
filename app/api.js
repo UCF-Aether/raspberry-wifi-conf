@@ -1,6 +1,7 @@
 var path = require("path"), util = require("util"),
     iwlist = require("./iwlist"), express = require("express"),
     bodyParser = require('body-parser'), config = require("../config.json"),
+    exec = require("child_process").exec,
     fs = require("fs"), http_test = config.http_test_only;
 
 // Helper function to log errors and send a generic status "SUCCESS"
